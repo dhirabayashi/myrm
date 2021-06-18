@@ -9,10 +9,15 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args) throws IOException {
         var argument = new Argument();
-        JCommander.newBuilder()
+        var jCommander = JCommander.newBuilder()
                 .addObject(argument)
-                .build()
-                .parse(args);
+                .build();
+        jCommander.parse(args);
+
+        if(argument.files == null || argument.help) {
+            jCommander.usage();
+            return;
+        }
 
         // 実行
         for(var arg : argument.files) {

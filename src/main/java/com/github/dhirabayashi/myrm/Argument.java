@@ -7,4 +7,7 @@ import java.util.List;
 public class Argument {
     @Parameter(description = "files")
     List<String> files;
+
+    @Parameter(names = {"-h", "-help"}, description = "help")
+    boolean help;
 }
