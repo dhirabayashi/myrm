@@ -22,4 +22,14 @@ class MainTest {
         // verify
         assertFalse(Files.exists(file));
     }
+
+    @Test
+    void rm_fileNotExists(@TempDir Path tempDir) throws IOException {
+        // setup
+        var file = tempDir.resolve("nonexistent");
+
+        // run
+        // 例外が投げられない
+        Main.rm(file);
+    }
 }

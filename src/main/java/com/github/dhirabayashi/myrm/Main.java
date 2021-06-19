@@ -27,6 +27,10 @@ public class Main {
     }
 
     public static void rm(Path file) throws IOException {
-        Files.delete(file);
+        if(Files.exists(file)) {
+            Files.delete(file);
+        } else {
+            System.err.printf("myrm: %s: No such file or director\n", file);
+        }
     }
 }
