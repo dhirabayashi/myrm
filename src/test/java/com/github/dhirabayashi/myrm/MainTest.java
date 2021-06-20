@@ -17,10 +17,11 @@ class MainTest {
         Files.createFile(file);
 
         // run
-        Main.rm(file);
+        int ret = Main.rm(file);
 
         // verify
         assertFalse(Files.exists(file));
+        assertEquals(0, ret);
     }
 
     @Test
@@ -30,6 +31,9 @@ class MainTest {
 
         // run
         // 例外が投げられない
-        Main.rm(file);
+        int ret = Main.rm(file);
+
+        // verify
+        assertNotEquals(0, ret);
     }
 }
