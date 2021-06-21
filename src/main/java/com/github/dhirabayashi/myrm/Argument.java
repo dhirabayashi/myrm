@@ -10,4 +10,7 @@ public class Argument {
 
     @Parameter(names = {"-h", "-help"}, description = "help")
     boolean help;
+
+    @Parameter(names = "-v", description = "Be verbose")
+    boolean verbose;
 }
