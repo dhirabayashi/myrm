@@ -51,6 +51,11 @@ public class Main {
         Set<Option> optionSet = Arrays.stream(options).collect(Collectors.toSet());
 
         if(Files.exists(file)) {
+            if(Files.isDirectory(file)) {
+                System.err.printf("myrm: %s: is a directory\n", file);
+                return 1;
+            }
+
             if(optionSet.contains(Option.VERBOSE)){
                 System.out.println(file);
             }

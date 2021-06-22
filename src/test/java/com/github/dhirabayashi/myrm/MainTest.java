@@ -36,4 +36,19 @@ class MainTest {
         // verify
         assertNotEquals(0, ret);
     }
+
+    @Test
+    void rm_directory(@TempDir Path tempDir) throws IOException {
+        // setup
+        var dir = tempDir.resolve("test");
+        Files.createDirectory(dir);
+
+        // run
+        int ret = Main.rm(dir);
+
+        // verify
+        assertNotEquals(0, ret);
+        // 消えない
+        assertTrue(Files.exists(dir));
+    }
 }
