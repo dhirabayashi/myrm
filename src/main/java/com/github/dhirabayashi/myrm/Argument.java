@@ -13,4 +13,7 @@ public class Argument {
 
     @Parameter(names = "-v", description = "Be verbose")
     boolean verbose;
+
+    @Parameter(names = "-d", description = "Attempt to remove directories.")
+    boolean deleteDirectories;
 }

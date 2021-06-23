@@ -31,6 +31,10 @@ public class Main {
             options.add(Option.VERBOSE);
         }
 
+        if(argument.deleteDirectories) {
+            options.add(Option.DELETE_DIRECTORIES);
+        }
+
         // 終了コード
         int exitCode = 0;
 
@@ -51,7 +55,7 @@ public class Main {
         Set<Option> optionSet = Arrays.stream(options).collect(Collectors.toSet());
 
         if(Files.exists(file)) {
-            if(Files.isDirectory(file)) {
+            if(!optionSet.contains(Option.DELETE_DIRECTORIES) && Files.isDirectory(file)) {
                 System.err.printf("myrm: %s: is a directory\n", file);
                 return 1;
             }

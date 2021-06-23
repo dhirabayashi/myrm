@@ -4,5 +4,10 @@ public enum Option {
     /**
      * 削除ファイル名を表示する
      */
-    VERBOSE
+    VERBOSE,
+
+    /**
+     * ディレクトリの削除を試みる
+     */
+    DELETE_DIRECTORIES
 }
