@@ -60,6 +60,11 @@ public class Main {
                 return 1;
             }
 
+            if(Files.isDirectory(file) && !isEmptyDirectory(file)) {
+                System.err.printf("myrm: %s: Directory not empty\n", file);
+                return 1;
+            }
+
             if(optionSet.contains(Option.VERBOSE)){
                 System.out.println(file);
             }
@@ -69,6 +74,12 @@ public class Main {
         } else {
             System.err.printf("myrm: %s: No such file or director\n", file);
             return 1;
+        }
+    }
+
+    private static boolean isEmptyDirectory(Path dir) throws IOException {
+        try(var list = Files.list(dir)) {
+            return list.count() == 0;
         }
     }
 }
