@@ -3,6 +3,7 @@ package com.github.dhirabayashi.myrm;
 import com.beust.jcommander.JCommander;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class Main {
             options.add(Option.DELETE_DIRECTORIES);
         }
 
+        if(argument.recurse) {
+            options.add(Option.DELETE_RECURSIVE);
+        }
+
         // 終了コード
         int exitCode = 0;
 
@@ -55,21 +60,25 @@ public class Main {
         Set<Option> optionSet = Arrays.stream(options).collect(Collectors.toSet());
 
         if(Files.exists(file)) {
-            if(!optionSet.contains(Option.DELETE_DIRECTORIES) && Files.isDirectory(file)) {
+            if(Files.isDirectory(file) && !hasDirectoryRemoveOption(optionSet)) {
                 System.err.printf("myrm: %s: is a directory\n", file);
                 return 1;
             }
 
-            if(Files.isDirectory(file) && !isEmptyDirectory(file)) {
+            if(Files.isDirectory(file) && !isEmptyDirectory(file) && !optionSet.contains(Option.DELETE_RECURSIVE)) {
                 System.err.printf("myrm: %s: Directory not empty\n", file);
                 return 1;
             }
 
-            if(optionSet.contains(Option.VERBOSE)){
-                System.out.println(file);
-            }
+            if(optionSet.contains(Option.DELETE_RECURSIVE)) {
+                deleteAll(file, optionSet);
+            } else {
+                if(optionSet.contains(Option.VERBOSE)){
+                    System.out.println(file);
+                }
 
-            Files.delete(file);
+                Files.delete(file);
+            }
             return 0;
         } else {
             System.err.printf("myrm: %s: No such file or director\n", file);
@@ -77,9 +86,35 @@ public class Main {
         }
     }
 
+    private static boolean hasDirectoryRemoveOption(Set<Option> options) {
+        return options.contains(Option.DELETE_DIRECTORIES) || options.contains(Option.DELETE_RECURSIVE);
+    }
+
     private static boolean isEmptyDirectory(Path dir) throws IOException {
         try(var list = Files.list(dir)) {
             return list.count() == 0;
         }
+    }
+
+    private static void deleteAll(Path path, Set<Option> options) throws IOException {
+        if(Files.isDirectory(path)) {
+            try(var list = Files.list(path)) {
+                list.forEach(target -> {
+                    try {
+                        deleteAll(target, options);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+            }
+        }
+        delete(path, options);
+    }
+
+    private static void delete(Path path, Set<Option> options) throws IOException {
+        if(options.contains(Option.VERBOSE)) {
+            System.out.println(path);
+        }
+        Files.delete(path);
     }
 }

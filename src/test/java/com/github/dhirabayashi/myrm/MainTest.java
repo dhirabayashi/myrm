@@ -82,4 +82,20 @@ class MainTest {
         // 空でないので消えない
         assertTrue(Files.exists(dir));
     }
+
+    @Test
+    void rm_DeleteNotEmptyDirectory(@TempDir Path tempDir) throws IOException {
+        // setup
+        var dir = tempDir.resolve("test");
+        Files.createDirectory(dir);
+        Files.createFile(dir.resolve("file"));
+
+        // run
+        int ret = Main.rm(dir, Option.DELETE_RECURSIVE);
+
+        // verify
+        assertEquals(0, ret);
+        // 消える
+        assertFalse(Files.exists(dir));
+    }
 }

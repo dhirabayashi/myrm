@@ -16,4 +16,7 @@ public class Argument {
 
     @Parameter(names = "-d", description = "Attempt to remove directories.")
     boolean deleteDirectories;
+
+    @Parameter(names = {"-r", "-R"}, description = "Attempt to remove the file hierarchy rooted in each file argument.")
+    boolean recurse;
 }

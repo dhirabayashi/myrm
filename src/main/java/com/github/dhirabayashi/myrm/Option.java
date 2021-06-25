@@ -9,5 +9,10 @@ public enum Option {
     /**
      * ディレクトリの削除を試みる
      */
-    DELETE_DIRECTORIES
+    DELETE_DIRECTORIES,
+
+    /**
+     * 再帰的に削除する
+     */
+    DELETE_RECURSIVE
 }
