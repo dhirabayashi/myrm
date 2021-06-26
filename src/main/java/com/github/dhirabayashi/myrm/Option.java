@@ -14,5 +14,10 @@ public enum Option {
     /**
      * 再帰的に削除する
      */
-    DELETE_RECURSIVE
+    DELETE_RECURSIVE,
+
+    /**
+     * 確認メッセージを出さない
+     */
+    FORCE
 }

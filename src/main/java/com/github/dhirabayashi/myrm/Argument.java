@@ -19,4 +19,7 @@ public class Argument {
 
     @Parameter(names = {"-r", "-R"}, description = "Attempt to remove the file hierarchy rooted in each file argument.")
     boolean recurse;
+
+    @Parameter(names = "-f", description = "Attempt to remove the files without prompting for confirmation, regardless of the file's permissions.")
+    boolean force;
 }

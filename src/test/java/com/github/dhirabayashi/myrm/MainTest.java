@@ -98,4 +98,18 @@ class MainTest {
         // 消える
         assertFalse(Files.exists(dir));
     }
+
+    @Test
+    void rm_fileNotExists_force(@TempDir Path tempDir) throws IOException {
+        // setup
+        var file = tempDir.resolve("nonexistent");
+
+        // run
+        // 例外が投げられない
+        int ret = Main.rm(file, Option.FORCE);
+
+        // verify
+        // 終了コードに影響がない
+        assertEquals(0, ret);
+    }
 }

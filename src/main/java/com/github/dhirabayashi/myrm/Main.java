@@ -40,6 +40,10 @@ public class Main {
             options.add(Option.DELETE_RECURSIVE);
         }
 
+        if(argument.force) {
+            options.add(Option.FORCE);
+        }
+
         // 終了コード
         int exitCode = 0;
 
@@ -79,11 +83,11 @@ public class Main {
 
                 Files.delete(file);
             }
-            return 0;
-        } else {
+        } else if(!optionSet.contains(Option.FORCE))  {
             System.err.printf("myrm: %s: No such file or director\n", file);
             return 1;
         }
+        return 0;
     }
 
     private static boolean hasDirectoryRemoveOption(Set<Option> options) {
